@@ -23,7 +23,7 @@ export default async function getListingById(params: IParams) {
 
     return {
       ...listing,
-      createdAt: listing.createAt.toISOString(),
+      createdAt: listing.createdAt.toISOString(),
       user: {
         ...listing.user,
         createdAt: listing.user.createdAt.toISOString(),
