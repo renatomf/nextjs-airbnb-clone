@@ -1,10 +1,13 @@
-"use client";
+'use client';
 
 import { useCallback, useState } from "react";
-import toast from "react-hot-toast";
-import { signIn } from "next-auth/react";
-
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import { signIn } from 'next-auth/react';
+import { 
+  FieldValues, 
+  SubmitHandler, 
+  useForm
+} from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";
 import { useRouter } from "next/navigation";
@@ -13,35 +16,35 @@ import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
 
 import Modal from "./Modal";
-import Heading from "../Heading";
 import Input from "../inputs/Input";
+import Heading from "../Heading";
 import Button from "../Button";
 
-
 const LoginModal = () => {
-  const router = useRouter()
-  const registerModal = useRegisterModal();
+  const router = useRouter();
   const loginModal = useLoginModal();
+  const registerModal = useRegisterModal();
   const [isLoading, setIsLoading] = useState(false);
 
-  const {
-    register,
+  const { 
+    register, 
     handleSubmit,
     formState: {
       errors,
-    }
+    },
   } = useForm<FieldValues>({
     defaultValues: {
       email: '',
       password: ''
-    }
+    },
   });
-
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  
+  const onSubmit: SubmitHandler<FieldValues> = 
+  (data) => {
     setIsLoading(true);
 
-    signIn('credentials', {
-      ...data,
+    signIn('credentials', { 
+      ...data, 
       redirect: false,
     })
     .then((callback) => {
@@ -52,17 +55,17 @@ const LoginModal = () => {
         router.refresh();
         loginModal.onClose();
       }
-
+      
       if (callback?.error) {
         toast.error(callback.error);
       }
-    })
+    });
   }
 
-  const toggle = useCallback(() => {
+  const onToggle = useCallback(() => {
     loginModal.onClose();
     registerModal.onOpen();
-  },[loginModal, registerModal]);
+  }, [loginModal, registerModal])
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -74,14 +77,14 @@ const LoginModal = () => {
         id="email"
         label="Email"
         disabled={isLoading}
-        register={register}
+        register={register}  
         errors={errors}
         required
       />
       <Input
         id="password"
-        type="password"
         label="Password"
+        type="password"
         disabled={isLoading}
         register={register}
         errors={errors}
@@ -94,43 +97,34 @@ const LoginModal = () => {
     <div className="flex flex-col gap-4 mt-3">
       <hr />
       <Button 
-        outline
+        outline 
         label="Continue with Google"
         icon={FcGoogle}
         onClick={() => signIn('google')}
       />
       <Button 
-        outline
+        outline 
         label="Continue with Github"
         icon={AiFillGithub}
         onClick={() => signIn('github')}
       />
-      <div
-        className="mt-4 font-light text-center text-neutral-500"
-      >
-        <div
-          className="flex flex-row items-center justify-center gap-2 text-center "
-          >
-          <div>
-            First time using Airbnb?
-          </div>
-          <div
-            onClick={toggle}
-            className="cursor-pointer text-neutral-800 hover:underline"
-            >
-            Create an account
-          </div>
-        </div>
+      <div className="mt-4 font-light text-center  text-neutral-500">
+        <p>First time using Airbnb?
+          <span 
+            onClick={onToggle} 
+            className="cursor-pointer  text-neutral-800 hover:underline"
+            > Create an account</span>
+        </p>
       </div>
     </div>
   )
 
   return (
     <Modal
-      title="Login"
-      actionLabel="Continue"
       disabled={isLoading}
       isOpen={loginModal.isOpen}
+      title="Login"
+      actionLabel="Continue"
       onClose={loginModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}

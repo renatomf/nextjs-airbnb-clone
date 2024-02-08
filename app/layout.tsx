@@ -1,31 +1,31 @@
-import { Nunito } from "next/font/google";
-import type { Metadata } from "next";
-import "./globals.css";
+import { Nunito } from 'next/font/google'
 
-import Navbar from "./components/navbar/Navbar";
-import ClientOnly from "./components/ClientOnly";
-import RegisterModal from "./components/modals/RegisterModal";
-import LoginModal from "./components/modals/LoginModal";
-import RentModal from "./components/modals/RentModal";
+import Navbar from '@/app/components/navbar/Navbar';
+import LoginModal from '@/app/components/modals/LoginModal';
+import RegisterModal from '@/app/components/modals/RegisterModal';
+import SearchModal from '@/app/components/modals/SearchModal';
+import RentModal from '@/app/components/modals/RentModal';
 
-import ToasterProvider from "./providers/ToastProvider";
-import getCurrentUser from "./actions/getCurrentUser";
-import SearchModal from "./components/modals/SearchModal";
+import ToasterProvider from '@/app/providers/ToasterProvider';
 
-const font = Nunito({
-  subsets: ["latin"],
+import './globals.css'
+import ClientOnly from './components/ClientOnly';
+import getCurrentUser from './actions/getCurrentUser';
+
+export const metadata = {
+  title: 'Airbnb',
+  description: 'Airbnb Clone',
+}
+
+const font = Nunito({ 
+  subsets: ['latin'], 
 });
-
-export const metadata: Metadata = {
-  title: "Airbnb",
-  description: "Airbnb Clone",
-};
 
 export default async function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   const currentUser = await getCurrentUser();
 
   return (
@@ -33,10 +33,10 @@ export default async function RootLayout({
       <body className={font.className}>
         <ClientOnly>
           <ToasterProvider />
-          <SearchModal />
-          <RentModal />
           <LoginModal />
           <RegisterModal />
+          <SearchModal />
+          <RentModal />
           <Navbar currentUser={currentUser} />
         </ClientOnly>
         <div className="pb-20 pt-28">
@@ -44,5 +44,5 @@ export default async function RootLayout({
         </div>
       </body>
     </html>
-  );
+  )
 }

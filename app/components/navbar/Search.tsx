@@ -92,7 +92,7 @@ const Search = () => {
         >
           <div className="hidden sm:block">{guestLabel}</div>
           <div 
-            className="p-2 text-white rounded-full  bg-rose-500"
+            className="p-2 text-white rounded-full bg-rose-500"
           >
             <BiSearch size={18} />
           </div>

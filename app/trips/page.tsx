@@ -1,9 +1,11 @@
-import ClientOnly from "../components/ClientOnly";
-import EmptyState from "../components/EmptyState";
-import TripsClient from "./TripsClient";
 
-import getCurrentUser from "../actions/getCurrentUser";
-import getReservations from "../actions/getReservation";
+import EmptyState from "@/app/components/EmptyState";
+import ClientOnly from "@/app/components/ClientOnly";
+
+import getCurrentUser from "@/app/actions/getCurrentUser";
+import getReservations from "@/app/actions/getReservations";
+
+import TripsClient from "./TripsClient";
 
 const TripsPage = async () => {
   const currentUser = await getCurrentUser();
@@ -16,12 +18,10 @@ const TripsPage = async () => {
           subtitle="Please login"
         />
       </ClientOnly>
-    )
+    );
   }
 
-  const reservations = await getReservations({
-    userId: currentUser.id
-  });
+  const reservations = await getReservations({ userId: currentUser.id });
 
   if (reservations.length === 0) {
     return (
@@ -31,7 +31,7 @@ const TripsPage = async () => {
           subtitle="Looks like you havent reserved any trips."
         />
       </ClientOnly>
-    )
+    );
   }
 
   return (
@@ -43,5 +43,5 @@ const TripsPage = async () => {
     </ClientOnly>
   );
 }
-
+ 
 export default TripsPage;
